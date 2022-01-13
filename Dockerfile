@@ -1,13 +1,35 @@
-FROM node:16-alpine3.15
+FROM nginx:latest
 
-# Create app directory
-WORKDIR /usr/src/app
+COPY /nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY /nginx/nginx.conf /etc/nginx/nginx.conf
+RUN rm /usr/share/nginx/html/index.html
 
-COPY yarn.lock ./
-COPY package.json ./
-RUN yarn install
+# Install node.s within the NGINX image
+ENV NODE_VERSION=16.13.0
+RUN apt-get update -yy && \
+    apt-get upgrade -yy&& \
+    apt-get install -yy curl && \
+    apt-get install -yy supervisor
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
+
+# Copy supervisord conf
+COPY supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Change to the default NGINX content directory
+WORKDIR /usr/share/nginx/html
+
+COPY package*.json ./
+RUN npm install
 
 COPY . .
 
-EXPOSE 8080
-CMD [ "yarn", "start" ]
+EXPOSE 8090
+
+ENTRYPOINT [ "/usr/share/nginx/html/init_container.sh" ]
