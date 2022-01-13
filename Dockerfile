@@ -1,7 +1,10 @@
 FROM nginx:latest
 
+# Copy over site specific configuration
 COPY /nginx/default.conf /etc/nginx/conf.d/default.conf
+# Copy over general core configuration
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
+# Remove the index.html under NGINXs default content directory
 RUN rm /usr/share/nginx/html/index.html
 
 # Install node.s within the NGINX image
