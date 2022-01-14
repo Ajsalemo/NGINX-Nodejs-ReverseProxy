@@ -7,7 +7,7 @@ COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 # Remove the index.html under NGINXs default content directory
 RUN rm /usr/share/nginx/html/index.html
 
-# Install node.s within the NGINX image
+# Install node.js within the NGINX image
 ENV NODE_VERSION=16.13.0
 RUN apt-get update -yy && \
     apt-get upgrade -yy&& \
