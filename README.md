@@ -5,3 +5,5 @@ A containerized Express.js application that uses NGINX as a reverse proxy within
 - NGINX is exposed over port 8090 (arbitrary port in this case)
 - Node/Express is listening on port 3000
 - NGINX's `default.conf` and/or `nginx.conf` can now be changed as needed such as redirects or header removal
+- `default.conf` contains a commented out example for non-www to www redirection
+
