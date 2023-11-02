@@ -1,5 +1,5 @@
-const express = require("express");
-const homeController = require("./controllers/homeController");
+import express from "express";
+import { homeController } from "./controllers/homeController.js";
 
 const port = process.env.PORT || 3000;
 const app = express();

@@ -1,4 +1,4 @@
-FROM nginx:1.21.5
+FROM nginx:1.25.3
 
 # Copy over site specific configuration
 COPY /nginx/default.conf /etc/nginx/conf.d/default.conf
@@ -8,9 +8,9 @@ COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 RUN rm /usr/share/nginx/html/index.html
 
 # Install node.js within the NGINX image
-ENV NODE_VERSION=16.13.0
+ENV NODE_VERSION=20.9.0
 RUN apt-get update -yy && \
-    apt-get upgrade -yy&& \
+    apt-get upgrade -yy && \
     apt-get install -yy curl && \
     apt-get install -yy supervisor
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash

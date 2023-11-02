@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+
 const router = express.Router();
 
-const homeController = router.get("/", (_, res, error) => {
+export const homeController = router.get("/", (_req, res) => {
   try {
     res.send("NGINX-Nodejs-ReverseProxy");
   } catch (error) {
@@ -9,5 +10,3 @@ const homeController = router.get("/", (_, res, error) => {
     next(error);
   }
 });
-
-module.exports = homeController;
